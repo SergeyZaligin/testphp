@@ -5,7 +5,7 @@ require_once "../deletejoke/index.php";
 
 try {
 
-	$sql = 'SELECT id, joketext FROM joke';
+	$sql = 'SELECT joke.id, joketext, name, email FROM joke INNER JOIN author ON ( authorid=author.id )';
 	$result = $pdo->query($sql);
 
 } catch (PDOException $e) {
@@ -15,7 +15,12 @@ try {
 }
 
 foreach ($result as $row) {
-	$jokes[] = ['id' => $row['id'], 'joketext' => $row['joketext']];
+	$jokes[] = [
+		'id' => $row['id'],
+		'joketext' => $row['joketext'],
+		'name' => $row['name'],
+		'email' => $row['email'],
+	];
 }
 
 include 'jokes.html.php';
